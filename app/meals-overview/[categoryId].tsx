@@ -1,5 +1,7 @@
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { useLayoutEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import {
   FlatList,
   Image,
@@ -12,7 +14,7 @@ import { CATEGORIES, MEALS } from "../../data/dummy-data";
 
 export default function MealsOverview() {
   const { categoryId } = useLocalSearchParams();
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const router = useRouter();
   const selectedCategory = CATEGORIES.find((cat) => cat.id === categoryId);
@@ -29,27 +31,28 @@ export default function MealsOverview() {
   }, [selectedCategory]);
   const renderMealItem = ({ item }) => {
     return (
-      <Pressable
-        style={({ pressed }) => [styles.mealItem, pressed && styles.pressed]}
-        onPress={() => router.push(`/meal-detail/${item.id}`)}
-      >
-        <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+        <Pressable
+          style={({ pressed }) => [styles.mealItem, pressed && styles.pressed]}
+          onPress={() => router.push(`/meal-detail/${item.id}`)}
+        >
+          <Image source={{ uri: item.imageUrl }} style={styles.image} />
 
-        <View style={styles.infoBox}>
-          <Text style={styles.title}>{item.title}</Text>
+          <View style={styles.infoBox}>
+            <Text style={styles.title}>{item.title}</Text>
 
-          <Text style={styles.subtitle}>
-            {item.affordability.toUpperCase()} · {item.complexity.toUpperCase()}{" "}
-            · {item.duration}m
-          </Text>
-        </View>
-      </Pressable>
+            <Text style={styles.subtitle}>
+              {item.affordability.toUpperCase()} ·{" "}
+              {item.complexity.toUpperCase()} · {item.duration}m
+            </Text>
+          </View>
+        </Pressable>
+      </SafeAreaView>
     );
   };
 
   return (
     <View style={styles.container}>
-
       <FlatList
         data={displayedMeals}
         renderItem={renderMealItem}

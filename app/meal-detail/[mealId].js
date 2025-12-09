@@ -33,7 +33,7 @@ export default function MealDetail() {
   }, [meal, headerBtnPressHandler]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
       <ScrollView style={styles.container}>
         <Image source={{ uri: meal.imageUrl }} style={styles.image} />
 
